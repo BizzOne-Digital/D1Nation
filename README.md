@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# D1 Nation — Website & Admin Portal
 
-## Getting Started
+Production-ready marketing site and `/admin` content portal for **D1 Nation**, built with Next.js (App Router), TypeScript, Tailwind CSS, and MongoDB. Media uploads use **Cloudinary** (serverless-safe).
 
-First, run the development server:
+## Project location
+
+All application code lives in this folder: `d1-nation/`.
+
+## Requirements
+
+- Node.js 20+
+- MongoDB Atlas (or local MongoDB)
+- Cloudinary account (for logo, hero video, and image uploads in admin)
+
+## Local setup
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Copy environment variables:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+3. Fill in `MONGODB_URI`, `AUTH_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and Cloudinary keys.
+
+4. Seed default services, FAQs, site settings, and the first admin user:
+
+   ```bash
+   npm run seed
+   ```
+
+5. Start the dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+- Public site: [http://localhost:3000](http://localhost:3000)
+- Admin: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+
+## Admin portal
+
+Manage from `/admin` after signing in:
+
+- Site settings (logo, hero video/image, headlines, contact, social URLs, SEO)
+- Services (descriptions, benefits, images, internal price + **Show public price** toggle)
+- Testimonials, FAQs, products, blog posts, team profiles
+- Contact inquiries (status workflow)
+
+**Pricing rule:** The public site shows **Contact for pricing** unless **Show public price** is enabled for that service or product.
+
+## Production build (local check)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) — this is the same mode Vercel uses after `next build`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploying to Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Import the `d1-nation` project (root directory: `d1-nation`).
+2. Set **Environment variables** (Production) from `.env.example`:
+   - `MONGODB_URI`
+   - `AUTH_SECRET` (32+ random characters; generate a new one for production)
+   - `NEXT_PUBLIC_SITE_URL` (your live domain, e.g. `https://your-domain.com`)
+   - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+   - `ADMIN_EMAIL` / `ADMIN_PASSWORD` only needed when running seed (do not commit real passwords)
+3. Deploy. Vercel runs `npm run build` automatically.
+4. On your machine (once), point `.env.local` at **production** `MONGODB_URI` and run `npm run seed` to create the admin user and default content. Change the admin password after first login.
+5. In MongoDB Atlas → Network Access, allow Vercel (or `0.0.0.0/0` during setup).
 
-## Learn More
+Uploads use **Cloudinary** — the server filesystem is not used for media in production.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command        | Description                |
+|----------------|----------------------------|
+| `npm run dev`  | Development server         |
+| `npm run build`| Production build           |
+| `npm run start`| Start production server  |
+| `npm run lint` | ESLint                     |
+| `npm run seed` | Seed DB + admin user       |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- No fabricated testimonials, team members, addresses, social URLs, or prices are shown by default.
+- Online checkout is not implemented; the shop uses inquiry CTAs.
+- Replace the temporary text logo and hero fallback via **Admin → Site Settings** when client assets arrive.
