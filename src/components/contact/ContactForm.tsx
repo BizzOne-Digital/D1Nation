@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 
 const services = ["Academy", "Teams", "Recruiting Coordination", "NIL Opportunities", "General"];
 
-export function ContactForm() {
+export function ContactForm({ theme = "dark" }: { theme?: "dark" | "marketing" }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -33,7 +33,14 @@ export function ContactForm() {
   }
 
   const inputClass =
-    "box-border w-full max-w-full min-w-0 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base text-d1-off-white placeholder:text-d1-muted/60 outline-none transition focus:border-d1-orange/60 focus:ring-2 focus:ring-d1-orange/20 sm:text-sm";
+    theme === "marketing"
+      ? "box-border w-full max-w-full min-w-0 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-base text-neutral-900 placeholder:text-neutral-400 outline-none transition focus:border-[#FF6A00]/60 focus:ring-2 focus:ring-[#FF6A00]/15 sm:text-sm"
+      : "box-border w-full max-w-full min-w-0 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base text-d1-off-white placeholder:text-d1-muted/60 outline-none transition focus:border-d1-orange/60 focus:ring-2 focus:ring-d1-orange/20 sm:text-sm";
+
+  const labelClass =
+    theme === "marketing"
+      ? "mb-1.5 block text-xs font-bold uppercase tracking-wider text-neutral-500"
+      : "mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted";
 
   return (
     <form onSubmit={onSubmit} className="space-y-4" noValidate>
@@ -44,31 +51,31 @@ export function ContactForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="parentName" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted">
+          <label htmlFor="parentName" className={labelClass}>
             Parent / Guardian Name *
           </label>
           <input id="parentName" name="parentName" required className={inputClass} />
         </div>
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted">
+          <label htmlFor="email" className={labelClass}>
             Email *
           </label>
           <input id="email" name="email" type="email" required className={inputClass} />
         </div>
         <div>
-          <label htmlFor="phone" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted">
+          <label htmlFor="phone" className={labelClass}>
             Phone *
           </label>
           <input id="phone" name="phone" type="tel" required className={inputClass} />
         </div>
         <div>
-          <label htmlFor="athleteName" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted">
+          <label htmlFor="athleteName" className={labelClass}>
             Athlete Name *
           </label>
           <input id="athleteName" name="athleteName" required className={inputClass} />
         </div>
         <div>
-          <label htmlFor="graduationYear" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted">
+          <label htmlFor="graduationYear" className={labelClass}>
             Athlete Graduation Year *
           </label>
           <input
@@ -82,13 +89,13 @@ export function ContactForm() {
           />
         </div>
         <div>
-          <label htmlFor="serviceInterest" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted">
+          <label htmlFor="serviceInterest" className={labelClass}>
             Service of Interest *
           </label>
           <select id="serviceInterest" name="serviceInterest" required className={inputClass}>
             <option value="">Select…</option>
             {services.map((s) => (
-              <option key={s} value={s} className="bg-d1-charcoal">
+              <option key={s} value={s}>
                 {s}
               </option>
             ))}
@@ -97,7 +104,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-d1-muted">
+        <label htmlFor="message" className={labelClass}>
           Message *
         </label>
         <textarea id="message" name="message" rows={5} required className={inputClass} />
@@ -114,7 +121,12 @@ export function ContactForm() {
         </p>
       )}
 
-      <Button type="submit" disabled={status === "loading"} className="w-full sm:w-auto">
+      <Button
+        type="submit"
+        disabled={status === "loading"}
+        variant={theme === "marketing" ? "marketing" : "primary"}
+        className="w-full sm:w-auto"
+      >
         {status === "loading" ? "Sending…" : "Submit Inquiry"}
       </Button>
     </form>

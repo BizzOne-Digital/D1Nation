@@ -18,7 +18,8 @@ export type ProductListItem = {
   available?: boolean;
 };
 
-export function ProductGrid({ products }: { products: ProductListItem[] }) {
+export function ProductGrid({ products, theme = "dark" }: { products: ProductListItem[]; theme?: "dark" | "marketing" }) {
+  const marketing = theme === "marketing";
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
 
@@ -41,17 +42,24 @@ export function ProductGrid({ products }: { products: ProductListItem[] }) {
     <div>
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative max-w-md flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-d1-muted" size={18} />
+          <Search
+            className={`absolute left-3 top-1/2 -translate-y-1/2 ${marketing ? "text-neutral-400" : "text-d1-muted"}`}
+            size={18}
+          />
           <input
             type="search"
             placeholder="Search products…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-10 pr-4 text-sm outline-none focus:border-d1-orange/50"
+            className={
+              marketing
+                ? "w-full rounded-lg border border-neutral-200 bg-white py-3 pl-10 pr-4 text-sm outline-none focus:border-[#FF6A00]/50"
+                : "w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-10 pr-4 text-sm outline-none focus:border-d1-orange/50"
+            }
             aria-label="Search products"
           />
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="-mx-1 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible [&::-webkit-scrollbar]:hidden">
           {categories.map((c) => (
             <button
               key={c}
@@ -59,8 +67,12 @@ export function ProductGrid({ products }: { products: ProductListItem[] }) {
               onClick={() => setCategory(c)}
               className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition ${
                 category === c
-                  ? "bg-d1-orange text-d1-charcoal"
-                  : "border border-white/10 text-d1-muted hover:border-d1-orange/40"
+                  ? marketing
+                    ? "bg-[#FF6A00] text-white"
+                    : "bg-d1-orange text-d1-charcoal"
+                  : marketing
+                    ? "border border-neutral-200 text-neutral-600 hover:border-[#FF6A00]/40"
+                    : "border border-white/10 text-d1-muted hover:border-d1-orange/40"
               }`}
             >
               {c}
@@ -77,7 +89,11 @@ export function ProductGrid({ products }: { products: ProductListItem[] }) {
               <Link
                 key={p._id}
                 href={`/shop/${p.slug}`}
-                className="group overflow-hidden rounded-2xl border border-white/10 bg-d1-charcoal-soft transition hover:border-d1-orange/40"
+                className={
+                  marketing
+                    ? "group overflow-hidden border border-neutral-200 bg-white shadow-sm transition hover:border-[#FF6A00]/40"
+                    : "group overflow-hidden rounded-2xl border border-white/10 bg-d1-charcoal-soft transition hover:border-d1-orange/40"
+                }
               >
                 <div className="relative aspect-square bg-white/5">
                   {img ? (
@@ -92,9 +108,13 @@ export function ProductGrid({ products }: { products: ProductListItem[] }) {
                   )}
                 </div>
                 <div className="p-5">
-                  <p className="text-[10px] uppercase tracking-widest text-d1-orange">{p.category}</p>
-                  <h3 className="mt-1 font-display text-2xl text-d1-off-white">{p.name}</h3>
-                  <p className="mt-2 font-semibold text-sm text-d1-off-white/90">
+                  <p className={`text-[10px] uppercase tracking-widest ${marketing ? "text-[#FF6A00]" : "text-d1-orange"}`}>
+                    {p.category}
+                  </p>
+                  <h3 className={`mt-1 text-xl font-bold ${marketing ? "text-neutral-900" : "font-display text-2xl text-d1-off-white"}`}>
+                    {p.name}
+                  </h3>
+                  <p className={`mt-2 font-semibold text-sm ${marketing ? "text-neutral-700" : "text-d1-off-white/90"}`}>
                     {formatPublicPrice(p.internalPrice, !!p.showPublicPrice)}
                   </p>
                 </div>
@@ -103,7 +123,9 @@ export function ProductGrid({ products }: { products: ProductListItem[] }) {
           })}
         </div>
       ) : (
-        <p className="text-center text-sm text-d1-muted">No products match your filters.</p>
+        <p className={`text-center text-sm ${marketing ? "text-neutral-500" : "text-d1-muted"}`}>
+          No products match your filters.
+        </p>
       )}
     </div>
   );

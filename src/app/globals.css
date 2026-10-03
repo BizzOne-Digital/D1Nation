@@ -132,3 +132,15 @@ section {
   letter-spacing: 0.05em;
   color: var(--d1-off-white);
 }
+
+.prose-marketing {
+  line-height: 1.75;
+  color: #525252;
+}
+
+.prose-marketing h2,
+.prose-marketing h3 {
+  font-family: var(--font-marketing), system-ui, sans-serif;
+  font-weight: 800;
+  color: #171717;
+}

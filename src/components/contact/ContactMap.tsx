@@ -6,7 +6,7 @@ export function ContactMap({ mapQuery }: ContactMapProps) {
   const src = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&t=&z=11&ie=UTF8&iwloc=&output=embed`;
 
   return (
-    <div className="mt-4 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-white/10">
+    <div className="mt-4 w-full min-w-0 max-w-full overflow-hidden rounded-lg border border-neutral-200">
       <iframe
         title={`Map showing ${mapQuery}`}
         src={src}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bebas_Neue, DM_Sans, Oswald } from "next/font/google";
+import { Bebas_Neue, Caveat, DM_Sans, Montserrat, Oswald } from "next/font/google";
 import "./globals.css";
 import { getSiteSettings } from "@/lib/site-data";
 
@@ -18,6 +18,18 @@ const oswald = Oswald({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
   variable: "--font-hero",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-marketing",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-script",
 });
 
 export const viewport: Viewport = {
@@ -45,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bebas.variable} ${dmSans.variable} ${oswald.variable} h-full`}>
+    <html lang="en" className={`${bebas.variable} ${dmSans.variable} ${oswald.variable} ${montserrat.variable} ${caveat.variable} h-full`}>
       <body className="site-body min-h-full flex min-w-0 flex-col bg-d1-charcoal text-d1-off-white antialiased">
         {children}
       </body>

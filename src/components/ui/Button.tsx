@@ -10,6 +10,10 @@ const variants = {
   secondary:
     "border border-d1-off-white/20 bg-white/5 text-d1-off-white backdrop-blur hover:border-d1-orange/50 hover:bg-d1-orange/10",
   ghost: "text-d1-off-white hover:text-d1-orange",
+  marketing:
+    "rounded-full bg-[#FF6A00] px-6 py-3 text-xs font-bold uppercase tracking-wide text-white hover:bg-[#e85f00] focus-visible:ring-offset-white",
+  marketingOutline:
+    "rounded-full border-2 border-[#FF6A00] bg-transparent px-6 py-3 text-xs font-bold uppercase tracking-wide text-[#FF6A00] hover:bg-[#FF6A00]/5 focus-visible:ring-offset-white",
 };
 
 type ButtonProps = {

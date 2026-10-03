@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/motion/Reveal";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactMap } from "@/components/contact/ContactMap";
+import { MarketingInnerShell } from "@/components/marketing/MarketingInnerShell";
+import { MARKETING_HEROES } from "@/lib/marketing-heroes";
+import { marketingSocial } from "@/lib/marketing-social";
 import { getSiteSettings } from "@/lib/site-data";
 
 export const metadata = { title: "Contact" };
@@ -28,96 +28,66 @@ function buildLocationLabel(settings: {
   const cityLine = [settings.city, settings.state, settings.zip].filter(Boolean).join(", ");
   if (cityLine) lines.push(cityLine);
   if (lines.length) return { display: lines, mapQuery: lines.join(", ") };
-  return {
-    display: ["Austin, Texas"],
-    mapQuery: "Austin, Texas",
-  };
+  return { display: ["Austin, Texas"], mapQuery: "Austin, Texas" };
 }
 
 export default async function ContactPage() {
   const settings = await getSiteSettings();
   const location = buildLocationLabel(settings);
+  const social = marketingSocial(settings);
 
   return (
-    <>
-      <section className="pt-32 pb-16">
-        <Container>
-          <Reveal>
-            <SectionHeading
-              eyebrow="Contact"
-              title="Let's talk about your athlete"
-              subtitle="Share a few details and our team will follow up. We respond to every serious inquiry."
-            />
-          </Reveal>
-        </Container>
-      </section>
-
-      <section className="pb-24">
-        <Container className="grid gap-12 lg:grid-cols-5">
-          <Reveal className="min-w-0 space-y-8 lg:col-span-2">
-            <div className="rounded-2xl border border-white/10 bg-d1-charcoal-soft p-6">
-              <h2 className="font-hero text-xl font-semibold uppercase tracking-wide text-d1-off-white">
-                Direct line
-              </h2>
-              <ul className="mt-4 space-y-3 text-sm text-d1-muted">
-                <li>
-                  <span className="block text-xs uppercase tracking-wider text-d1-orange">Email</span>
-                  <a href={`mailto:${settings.email}`} className="hover:text-d1-off-white">
-                    {settings.email}
-                  </a>
+    <MarketingInnerShell
+      eyebrow="Contact"
+      title="Let's Talk About Your Athlete."
+      subtitle="Share a few details and our team will follow up. We respond to every serious inquiry."
+      heroImage={MARKETING_HEROES.contact}
+      social={social}
+    >
+      <div className="grid min-w-0 gap-10 lg:grid-cols-5 lg:gap-12">
+        <div className="min-w-0 space-y-6 lg:col-span-2">
+          <div className="border border-neutral-200 bg-neutral-50 p-6">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">Direct line</h2>
+            <ul className="mt-4 space-y-3 text-sm text-neutral-600">
+              <li>
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-[#FF6A00]">Email</span>
+                <a href={`mailto:${settings.email}`} className="hover:text-neutral-900">{settings.email}</a>
+              </li>
+              <li>
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-[#FF6A00]">Phone</span>
+                <a href={`tel:${settings.phone.replace(/\D/g, "")}`} className="hover:text-neutral-900">
+                  {settings.phone}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="border border-neutral-200 bg-neutral-50 p-6">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">Location</h2>
+            <address className="mt-4 not-italic text-sm leading-relaxed text-neutral-600">
+              {location.display.map((line) => (
+                <span key={line} className="block">{line}</span>
+              ))}
+            </address>
+            <ContactMap mapQuery={location.mapQuery} />
+          </div>
+          <div className="border border-neutral-200 bg-neutral-50 p-6">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">Social</h2>
+            <ul className="mt-4 space-y-3">
+              {SOCIAL_PLACEHOLDERS.map((item) => (
+                <li key={item.platform}>
+                  <Link href="/contact" className="group flex items-center justify-between gap-3 text-sm">
+                    <span className="text-neutral-500 group-hover:text-neutral-800">{item.platform}</span>
+                    <span className="font-semibold text-[#FF6A00]">{item.handle}</span>
+                  </Link>
                 </li>
-                <li>
-                  <span className="block text-xs uppercase tracking-wider text-d1-orange">Phone</span>
-                  <a href={`tel:${settings.phone.replace(/\D/g, "")}`} className="hover:text-d1-off-white">
-                    {settings.phone}
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-d1-charcoal-soft p-6">
-              <h2 className="font-hero text-xl font-semibold uppercase tracking-wide text-d1-off-white">
-                Location
-              </h2>
-              <address className="mt-4 not-italic text-sm leading-relaxed text-d1-muted">
-                {location.display.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </address>
-              <ContactMap mapQuery={location.mapQuery} />
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-d1-charcoal-soft p-6">
-              <h2 className="font-hero text-xl font-semibold uppercase tracking-wide text-d1-off-white">
-                Social
-              </h2>
-              <ul className="mt-4 space-y-3">
-                {SOCIAL_PLACEHOLDERS.map((item) => (
-                  <li key={item.platform}>
-                    <Link
-                      href="/contact"
-                      className="group flex items-center justify-between gap-3 text-sm transition"
-                    >
-                      <span className="text-d1-muted group-hover:text-d1-off-white">{item.platform}</span>
-                      <span className="font-medium text-d1-orange group-hover:text-d1-orange-bright">
-                        {item.handle}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.1} className="min-w-0 lg:col-span-3">
-            <div className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur sm:p-6 md:p-8">
-              <ContactForm />
-            </div>
-          </Reveal>
-        </Container>
-      </section>
-    </>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="min-w-0 border border-neutral-200 bg-white p-4 sm:p-6 md:p-8 lg:col-span-3">
+          <ContactForm theme="marketing" />
+        </div>
+      </div>
+    </MarketingInnerShell>
   );
 }

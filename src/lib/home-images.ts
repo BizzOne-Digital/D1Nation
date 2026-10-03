@@ -1,0 +1,15 @@
+export const HOME_IMAGES = {
+  hero: "/images/home/hero-collage.jpg",
+  program01: "/images/home/program-01.jpg",
+  program02: "/images/home/program-02.jpg",
+  program03: "/images/home/program-03.jpg",
+  program04: "/images/home/program-04.jpg",
+  videoBreak: "/images/home/video-break.jpg",
+  path01: "/images/home/path-01.jpg",
+  path02: "/images/home/path-02.jpg",
+  path03: "/images/home/path-03.jpg",
+  path04: "/images/home/path-04.jpg",
+  academy: "/images/home/academy.jpg",
+  testimonial: "/images/home/testimonial.jpg",
+  cta: "/images/home/cta-bg.jpg",
+} as const;
