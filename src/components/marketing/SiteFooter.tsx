@@ -2,10 +2,14 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const servicesLinks = [
-  { href: "/services", label: "Academy" },
-  { href: "/services", label: "Teams" },
+  { href: "/academy", label: "Academy" },
+  { href: "/teams", label: "Teams" },
+  { href: "/camps", label: "Camps" },
+  { href: "/uniforms", label: "Uniforms" },
   { href: "/services", label: "Recruiting" },
   { href: "/nil-opportunities", label: "NIL Opportunities" },
+  { href: "/social-media-management", label: "Social Media" },
+  { href: "/sponsors", label: "Sponsors" },
 ];
 
 const resourceLinks = [
@@ -13,12 +17,14 @@ const resourceLinks = [
   { href: "/blog", label: "Guides" },
   { href: "/pricing", label: "Programs & Camps" },
   { href: "/contact", label: "FAQ" },
+  { href: "/social-media", label: "Social Media" },
+  { href: "/payment-gateways", label: "Payments" },
 ];
 
 const aboutLinks = [
   { href: "/about", label: "Our Story" },
   { href: "/team", label: "Our Team" },
-  { href: "/testimonials", label: "Alumni Stories" },
+  { href: "/alumni", label: "Alumni Stories" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -155,8 +161,8 @@ export function SiteFooter({ social }: Props) {
         <div className="mx-auto flex max-w-[1280px] flex-col gap-4 px-4 py-6 text-xs text-neutral-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} D1 Nation. All rights reserved.</p>
           <div className="flex flex-wrap gap-6">
-            <Link href="/contact" className="transition hover:text-neutral-900">Privacy Policy</Link>
-            <Link href="/contact" className="transition hover:text-neutral-900">Terms of Service</Link>
+            <Link href="/privacy" className="transition hover:text-neutral-900">Privacy Policy</Link>
+            <Link href="/terms" className="transition hover:text-neutral-900">Terms of Service</Link>
             <Link href="/contact" className="transition hover:text-neutral-900">Contact</Link>
           </div>
         </div>

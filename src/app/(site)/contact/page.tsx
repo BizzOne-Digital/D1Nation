@@ -3,17 +3,10 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactMap } from "@/components/contact/ContactMap";
 import { MarketingInnerShell } from "@/components/marketing/MarketingInnerShell";
 import { MARKETING_HEROES } from "@/lib/marketing-heroes";
-import { marketingSocial } from "@/lib/marketing-social";
+import { marketingSocial, resolveSocialHref, socialDisplayLabel } from "@/lib/marketing-social";
 import { getSiteSettings } from "@/lib/site-data";
 
 export const metadata = { title: "Contact" };
-
-const SOCIAL_PLACEHOLDERS = [
-  { platform: "Instagram", handle: "@instagram" },
-  { platform: "Twitter", handle: "@twiter" },
-  { platform: "Facebook", handle: "@facebook" },
-  { platform: "TikTok", handle: "@tiktok" },
-];
 
 function buildLocationLabel(settings: {
   address?: string;
@@ -35,6 +28,11 @@ export default async function ContactPage() {
   const settings = await getSiteSettings();
   const location = buildLocationLabel(settings);
   const social = marketingSocial(settings);
+  const socialChannels = [
+    { platform: "Instagram", href: resolveSocialHref("instagram", social.instagram), label: socialDisplayLabel(social.instagram) },
+    { platform: "Facebook", href: resolveSocialHref("facebook", social.facebook), label: socialDisplayLabel(social.facebook) },
+    { platform: "TikTok", href: resolveSocialHref("tiktok", social.tiktok), label: socialDisplayLabel(social.tiktok) },
+  ];
 
   return (
     <MarketingInnerShell
@@ -73,15 +71,30 @@ export default async function ContactPage() {
           <div className="border border-neutral-200 bg-neutral-50 p-6">
             <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-900">Social</h2>
             <ul className="mt-4 space-y-3">
-              {SOCIAL_PLACEHOLDERS.map((item) => (
+              {socialChannels.map((item) => (
                 <li key={item.platform}>
-                  <Link href="/contact" className="group flex items-center justify-between gap-3 text-sm">
-                    <span className="text-neutral-500 group-hover:text-neutral-800">{item.platform}</span>
-                    <span className="font-semibold text-[#FF6A00]">{item.handle}</span>
-                  </Link>
+                  {item.href && item.label ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-3 text-sm"
+                    >
+                      <span className="text-neutral-500 group-hover:text-neutral-800">{item.platform}</span>
+                      <span className="font-semibold text-[#FF6A00]">{item.label}</span>
+                    </a>
+                  ) : (
+                    <span className="flex items-center justify-between gap-3 text-sm text-neutral-400">
+                      <span>{item.platform}</span>
+                      <span className="text-xs">Not set</span>
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
+            <Link href="/social-media" className="mt-4 inline-block text-xs font-semibold text-[#FF6A00] hover:underline">
+              View all social links
+            </Link>
           </div>
         </div>
         <div className="min-w-0 border border-neutral-200 bg-white p-4 sm:p-6 md:p-8 lg:col-span-3">

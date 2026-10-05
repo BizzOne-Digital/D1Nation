@@ -9,12 +9,12 @@ import { cn } from "@/lib/cn";
 const defaultNav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/services", label: "Programs" },
-  { href: "/pricing", label: "Camps" },
+  { href: "/programs", label: "Programs" },
+  { href: "/camps", label: "Camps" },
   { href: "/nil-opportunities", label: "NIL" },
   { href: "/blog", label: "Blog" },
   { href: "/shop", label: "Shop" },
-  { href: "/testimonials", label: "Alumni" },
+  { href: "/alumni", label: "Alumni" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -22,10 +22,12 @@ const servicesNav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
-  { href: "/pricing", label: "Programs" },
+  { href: "/programs", label: "Programs" },
+  { href: "/camps", label: "Camps" },
   { href: "/nil-opportunities", label: "NIL" },
   { href: "/blog", label: "Resources" },
   { href: "/shop", label: "Shop" },
+  { href: "/alumni", label: "Alumni" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -33,10 +35,12 @@ const nilNav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
-  { href: "/pricing", label: "Programs" },
+  { href: "/programs", label: "Programs" },
+  { href: "/camps", label: "Camps" },
   { href: "/nil-opportunities", label: "NIL" },
   { href: "/blog", label: "Blog" },
   { href: "/shop", label: "Shop" },
+  { href: "/alumni", label: "Alumni" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -48,6 +52,23 @@ function isNavActive(
   if (item.label === "Home") return pathname === "/";
   if (item.label === "About") return pathname === "/about";
   if (item.label === "Services") return pathname === "/services";
+  if (item.label === "Programs") {
+    const programRoots = [
+      "/programs",
+      "/academy",
+      "/teams",
+      "/camps",
+      "/uniforms",
+      "/services",
+      "/nil-opportunities",
+      "/social-media-management",
+      "/payment-gateways",
+      "/sponsors",
+    ];
+    return programRoots.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  }
+  if (item.label === "Camps") return pathname === "/camps" || pathname.startsWith("/camps/");
+  if (item.label === "Alumni") return pathname === "/alumni" || pathname.startsWith("/testimonials");
   if (item.label === "NIL" || item.label === "NIL Opportunities") return pathname === "/nil-opportunities";
   if (item.label === "Blog" && variant === "nil") return pathname.startsWith("/blog");
   return pathname === item.href || pathname.startsWith(`${item.href}/`);

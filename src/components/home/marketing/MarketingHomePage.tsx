@@ -146,15 +146,25 @@ export function MarketingHomePage({ heroVideoUrl, testimonial, social }: Props) 
                 Get Started
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                href={heroVideoUrl || "#video-break"}
-                className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-neutral-800 hover:text-[#FF6600]"
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-neutral-300">
-                  <Play className="h-4 w-4 fill-neutral-800 text-neutral-800" />
-                </span>
-                Watch Our Story
-              </Link>
+              {heroVideoUrl ? (
+                <Link
+                  href={heroVideoUrl}
+                  className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-neutral-800 hover:text-[#FF6600]"
+                >
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-neutral-300">
+                    <Play className="h-4 w-4 fill-neutral-800 text-neutral-800" />
+                  </span>
+                  Watch Our Story
+                </Link>
+              ) : (
+                <Link
+                  href="/about#our-story"
+                  className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-neutral-800 hover:text-[#FF6600]"
+                >
+                  Our Story
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              )}
             </div>
           </div>
           <div className="relative min-h-[320px] sm:min-h-[400px] lg:min-h-[520px]">
@@ -239,28 +249,6 @@ export function MarketingHomePage({ heroVideoUrl, testimonial, social }: Props) 
             ))}
           </div>
         </div>
-      </section>
-
-      {/* Video break */}
-      <section id="video-break" className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[420px]">
-        <Image src={HOME_IMAGES.videoBreak} alt="" fill className="object-cover" sizes="100vw" />
-        <div className="absolute inset-0 bg-black/25" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white">
-          <Link
-            href={heroVideoUrl || "/about"}
-            className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/90 bg-white/10 backdrop-blur-sm transition hover:bg-white/20"
-            aria-label="Play video"
-          >
-            <Play className="h-7 w-7 fill-white text-white" />
-          </Link>
-          <span className="text-sm font-semibold tracking-wide">Watch Our Story</span>
-        </div>
-        <p
-          className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 text-3xl font-bold text-white/90 lg:block xl:right-16 xl:text-4xl"
-          style={{ fontFamily: "var(--font-script)" }}
-        >
-          People • Purpose • Progress
-        </p>
       </section>
 
       {/* Clear path */}

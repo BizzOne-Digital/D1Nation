@@ -3,7 +3,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 
-const services = ["Academy", "Teams", "Recruiting Coordination", "NIL Opportunities", "General"];
+const services = [
+  "Academy",
+  "Teams",
+  "Camps",
+  "Uniforms",
+  "Recruiting Coordination",
+  "NIL Opportunities",
+  "Social Media Management",
+  "Sponsorship",
+  "General",
+];
 
 export function ContactForm({ theme = "dark" }: { theme?: "dark" | "marketing" }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -111,12 +121,26 @@ export function ContactForm({ theme = "dark" }: { theme?: "dark" | "marketing" }
       </div>
 
       {status === "success" && (
-        <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200" role="status">
+        <p
+          className={
+            theme === "marketing"
+              ? "rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"
+              : "rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200"
+          }
+          role="status"
+        >
           Thank you — your inquiry was received. We&apos;ll be in touch soon.
         </p>
       )}
       {status === "error" && (
-        <p className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200" role="alert">
+        <p
+          className={
+            theme === "marketing"
+              ? "rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+              : "rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+          }
+          role="alert"
+        >
           {error}
         </p>
       )}

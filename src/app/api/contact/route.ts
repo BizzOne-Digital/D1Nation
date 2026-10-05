@@ -19,6 +19,10 @@ const recentByIp = new Map<string, number>();
 
 export async function POST(request: Request) {
   try {
+    if (!process.env.MONGODB_URI) {
+      return jsonError("Inquiries are temporarily unavailable. Please email us directly from the contact page.", 503);
+    }
+
     const body = schema.parse(await request.json());
     if (body.website) {
       return jsonOk({ ok: true });
