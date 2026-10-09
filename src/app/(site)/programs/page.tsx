@@ -30,7 +30,7 @@ export default async function ProgramsHubPage() {
       heroImage={HOME_IMAGES.program01}
       social={marketingSocial(settings)}
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2">
         {programLinks.map((item) => (
           <Link
             key={item.href}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { BrandLogo } from "@/components/marketing/BrandLogo";
 
 const servicesLinks = [
   { href: "/academy", label: "Academy" },
@@ -98,10 +99,7 @@ export function SiteFooter({ social }: Props) {
       <div className="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="order-1 lg:col-span-4">
-            <Link href="/" className="inline-block text-2xl font-extrabold italic tracking-tight">
-              <span className="text-[#FF6A00] not-italic">D1</span>
-              <span className="text-neutral-900"> NATION</span>
-            </Link>
+            <BrandLogo />
             <p className="mt-4 max-w-xs text-[11px] font-bold uppercase leading-relaxed tracking-[0.18em] text-neutral-500">
               Athletes • Families • Brighter Tomorrows
             </p>
@@ -160,10 +158,11 @@ export function SiteFooter({ social }: Props) {
       <div className="border-t border-neutral-200 bg-white">
         <div className="mx-auto flex max-w-[1280px] flex-col gap-4 px-4 py-6 text-xs text-neutral-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>© {new Date().getFullYear()} D1 Nation. All rights reserved.</p>
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-x-4 gap-y-2 sm:gap-6">
             <Link href="/privacy" className="transition hover:text-neutral-900">Privacy Policy</Link>
             <Link href="/terms" className="transition hover:text-neutral-900">Terms of Service</Link>
             <Link href="/contact" className="transition hover:text-neutral-900">Contact</Link>
+            <Link href="/intro?replay=1" className="transition hover:text-neutral-900">Watch intro</Link>
           </div>
         </div>
       </div>

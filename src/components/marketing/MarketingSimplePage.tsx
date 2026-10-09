@@ -52,7 +52,7 @@ export function MarketingSimplePage({ content, social }: Props) {
         {primaryCta ? (
           <Link
             href={primaryCta.href}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FF6A00] px-6 py-3.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-[#e85c00]"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#FF6A00] px-6 py-3.5 text-xs font-bold uppercase tracking-wide text-white hover:bg-[#e85c00] sm:w-auto"
           >
             {primaryCta.label}
             <ArrowRight className="h-4 w-4" />

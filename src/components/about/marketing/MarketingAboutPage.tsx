@@ -79,7 +79,7 @@ export function MarketingAboutPage({
     "D1 Nation is a complete ecosystem for athletes and families — academy training, competitive teams, recruiting coordination, and NIL education under one roof.";
 
   return (
-    <div className="min-h-screen min-w-0 overflow-x-clip bg-white font-[family-name:var(--font-marketing)] text-neutral-900 antialiased">
+    <div className="marketing-energy min-h-screen min-w-0 bg-white font-[family-name:var(--font-marketing)] text-neutral-900 antialiased">
       <MarketingHeader />
 
       {/* Hero */}

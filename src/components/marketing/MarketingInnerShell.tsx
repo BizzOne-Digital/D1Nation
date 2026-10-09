@@ -30,9 +30,9 @@ export function MarketingInnerShell({
   const centered = align === "center";
 
   return (
-    <div className="min-h-screen min-w-0 overflow-x-clip bg-white font-[family-name:var(--font-marketing)] text-neutral-900 antialiased">
+    <div className="marketing-energy min-h-screen min-w-0 bg-white font-[family-name:var(--font-marketing)] text-neutral-900 antialiased">
       <MarketingHeader />
-      <section className="relative overflow-hidden border-b border-neutral-100 bg-white">
+      <section className="relative overflow-hidden border-b border-neutral-100 bg-marketing-mesh">
         <div
           className="pointer-events-none absolute top-[-20%] left-[-8%] hidden h-[130%] w-[18%] rotate-[16deg] bg-[#FF6A00]/20 lg:block"
           aria-hidden
@@ -56,13 +56,13 @@ export function MarketingInnerShell({
               </p>
             ) : null}
           </div>
-          <div className="relative order-1 min-h-[200px] sm:min-h-[280px] lg:order-2 lg:min-h-[360px]">
+          <div className="relative order-1 min-h-[min(52vw,280px)] sm:min-h-[280px] lg:order-2 lg:min-h-[360px]">
             <Image src={heroImage} alt="" fill priority className="object-cover object-center" sizes="(max-width: 1024px) 100vw, 50vw" />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/90 lg:bg-gradient-to-r lg:from-white lg:via-white/70 lg:to-transparent" />
           </div>
         </div>
       </section>
-      <div className="mx-auto max-w-[1280px] px-4 py-10 sm:px-6 sm:py-16 lg:px-8">{children}</div>
+      <div className="mx-auto min-w-0 max-w-[1280px] px-4 py-10 sm:px-6 sm:py-16 lg:px-8">{children}</div>
       <MarketingServicesFooter social={social} />
     </div>
   );

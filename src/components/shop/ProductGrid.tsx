@@ -65,7 +65,7 @@ export function ProductGrid({ products, theme = "dark" }: { products: ProductLis
               key={c}
               type="button"
               onClick={() => setCategory(c)}
-              className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition ${
+              className={`shrink-0 rounded-full px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition ${
                 category === c
                   ? marketing
                     ? "bg-[#FF6A00] text-white"

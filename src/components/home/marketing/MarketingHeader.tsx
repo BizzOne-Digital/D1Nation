@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowRight, Menu, Search, ShoppingBag, X } from "lucide-react";
+import { BrandLogo } from "@/components/marketing/BrandLogo";
 import { cn } from "@/lib/cn";
 
 const defaultNav = [
@@ -74,18 +75,18 @@ function isNavActive(
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
 }
 
-export function MarketingHeader({ variant = "default" }: { variant?: "default" | "services" | "nil" }) {
-  const nav = variant === "services" ? servicesNav : variant === "nil" ? nilNav : defaultNav;
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+type NavItem = { href: string; label: string };
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+function MobileNavSheet({
+  nav,
+  pathname,
+  variant,
+}: {
+  nav: NavItem[];
+  pathname: string;
+  variant: "default" | "services" | "nil";
+}) {
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -94,77 +95,23 @@ export function MarketingHeader({ variant = "default" }: { variant?: "default" |
     };
   }, [open]);
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full max-w-[100vw] border-b border-neutral-200/80 bg-white/95 backdrop-blur-md transition-shadow",
-        scrolled && "shadow-sm",
-      )}
-      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
-    >
-      <div className="mx-auto flex h-14 max-w-[1280px] items-center justify-between gap-3 px-4 sm:h-[72px] sm:gap-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="min-w-0 shrink font-[family-name:var(--font-marketing)] text-base font-extrabold italic tracking-tight sm:text-xl"
-        >
-          <span className="text-[#FF6600] not-italic">D1</span>
-          <span className="text-neutral-900"> NATION</span>
-        </Link>
-
-        <nav className="hidden items-center gap-4 xl:gap-6 lg:flex" aria-label="Primary">
-          {nav.map((item) => {
-            const active = isNavActive(pathname, item, variant);
-            return (
-              <Link
-                key={`${item.href}-${item.label}`}
-                href={item.href}
-                className={cn(
-                  "text-[13px] font-medium text-neutral-700 transition hover:text-neutral-900",
-                  active && "text-[#FF6600]",
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="flex shrink-0 items-center gap-1 sm:gap-3">
-          <Link href="/shop" className="hidden p-2 text-neutral-700 hover:text-neutral-900 md:inline-flex" aria-label="Search">
-            <Search className="h-5 w-5" strokeWidth={1.75} />
-          </Link>
-          <Link href="/shop" className="hidden p-2 text-neutral-700 hover:text-neutral-900 md:inline-flex" aria-label="Cart">
-            <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
-          </Link>
-          <Link
-            href="/contact"
-            className="hidden items-center gap-2 rounded-full bg-[#FF6600] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-[#e85c00] md:inline-flex"
-          >
-            Get Started
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex items-center rounded-full bg-[#FF6600] px-3 py-2 text-[10px] font-bold uppercase tracking-wide text-white md:hidden"
-          >
-            Start
-          </Link>
-          <button
-            type="button"
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-neutral-800 lg:hidden"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-label={open ? "Close menu" : "Open menu"}
-          >
-            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-      </div>
-
+    <>
+      <Link
+        href="/contact"
+        className="inline-flex min-h-[40px] items-center rounded-full bg-[#FF6600] px-3 py-2 text-[10px] font-bold uppercase tracking-wide text-white md:hidden"
+      >
+        Start
+      </Link>
+      <button
+        type="button"
+        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-neutral-800 lg:hidden"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-label={open ? "Close menu" : "Open menu"}
+      >
+        {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+      </button>
       {open && (
         <>
           <button
@@ -174,12 +121,17 @@ export function MarketingHeader({ variant = "default" }: { variant?: "default" |
             onClick={() => setOpen(false)}
           />
           <div
-            className="fixed inset-x-0 bottom-0 z-[60] flex max-h-[min(85dvh,520px)] flex-col rounded-t-2xl border-t border-neutral-200 bg-white shadow-2xl lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-[60] flex max-h-[min(92dvh,640px)] flex-col rounded-t-2xl border-t border-neutral-200 bg-white shadow-2xl lg:hidden"
             style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom, 0px))" }}
           >
             <div className="flex items-center justify-between border-b border-neutral-100 px-4 py-3">
               <p className="text-xs font-bold uppercase tracking-wider text-neutral-500">Menu</p>
-              <button type="button" className="p-2 text-neutral-600" onClick={() => setOpen(false)} aria-label="Close">
+              <button
+                type="button"
+                className="tap-target inline-flex items-center justify-center p-2 text-neutral-600"
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -214,6 +166,68 @@ export function MarketingHeader({ variant = "default" }: { variant?: "default" |
           </div>
         </>
       )}
+    </>
+  );
+}
+
+export function MarketingHeader({ variant = "default" }: { variant?: "default" | "services" | "nil" }) {
+  const nav = variant === "services" ? servicesNav : variant === "nil" ? nilNav : defaultNav;
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full max-w-[100vw] border-b border-neutral-200/80 bg-white/95 backdrop-blur-md transition-shadow",
+        scrolled && "shadow-sm",
+      )}
+      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+    >
+      <div className="safe-px mx-auto flex h-14 max-w-[1280px] items-center justify-between gap-1.5 sm:h-[72px] sm:gap-4 sm:px-6 lg:px-8">
+        <BrandLogo className="min-w-0" priority />
+
+        <nav className="hidden items-center gap-4 xl:gap-6 lg:flex" aria-label="Primary">
+          {nav.map((item) => {
+            const active = isNavActive(pathname, item, variant);
+            return (
+              <Link
+                key={`${item.href}-${item.label}`}
+                href={item.href}
+                className={cn(
+                  "text-[13px] font-medium text-neutral-700 transition hover:text-neutral-900",
+                  active && "text-[#FF6600]",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="flex shrink-0 items-center gap-1 sm:gap-3">
+          <Link href="/shop" className="hidden p-2 text-neutral-700 hover:text-neutral-900 md:inline-flex" aria-label="Search">
+            <Search className="h-5 w-5" strokeWidth={1.75} />
+          </Link>
+          <Link href="/shop" className="hidden p-2 text-neutral-700 hover:text-neutral-900 md:inline-flex" aria-label="Cart">
+            <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
+          </Link>
+          <Link
+            href="/contact"
+            className="cta-glow hidden items-center gap-2 rounded-full bg-[#FF6600] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:scale-[1.02] hover:bg-[#e85c00] md:inline-flex"
+          >
+            Get Started
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+          <MobileNavSheet key={pathname} nav={nav} pathname={pathname} variant={variant} />
+        </div>
+      </div>
     </header>
   );
 }

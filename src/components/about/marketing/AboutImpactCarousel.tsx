@@ -20,7 +20,7 @@ export function AboutImpactCarousel({ slides }: Props) {
   return (
     <div>
       <span className="text-6xl font-serif leading-none text-[#FF6600]" aria-hidden>&ldquo;</span>
-      <blockquote className="-mt-2 max-w-2xl text-lg font-semibold leading-snug text-white sm:text-xl md:text-2xl">
+      <blockquote className="-mt-2 max-w-2xl text-base font-semibold leading-snug text-white sm:text-xl md:text-2xl">
         {current.quote}
       </blockquote>
       <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-[#FF6600]">{current.role}</p>
@@ -44,7 +44,7 @@ export function AboutImpactCarousel({ slides }: Props) {
           type="button"
           aria-label="Previous"
           onClick={() => setIndex((i) => (i - 1 + total) % total)}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white hover:border-[#FF6600]"
+          className="tap-target flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white hover:border-[#FF6600]"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -52,7 +52,7 @@ export function AboutImpactCarousel({ slides }: Props) {
           type="button"
           aria-label="Next"
           onClick={() => setIndex((i) => (i + 1) % total)}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white hover:border-[#FF6600]"
+          className="tap-target flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white hover:border-[#FF6600]"
         >
           <ChevronRight className="h-4 w-4" />
         </button>
