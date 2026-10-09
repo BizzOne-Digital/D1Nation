@@ -38,7 +38,8 @@ export async function middleware(request: NextRequest) {
   const introSeen = request.cookies.get(INTRO_SEEN_COOKIE)?.value === "1";
   const replay = request.nextUrl.searchParams.get("replay") === "1";
 
-  if (pathname === "/" && !introSeen) {
+  const isHomeEntry = pathname === "/" || pathname === "";
+  if (isHomeEntry && !introSeen) {
     return NextResponse.redirect(new URL("/intro", request.url));
   }
 
