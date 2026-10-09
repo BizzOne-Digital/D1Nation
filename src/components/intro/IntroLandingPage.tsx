@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useRef, useState } from "react";
-import { ArrowRight, Volume2, VolumeX } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 import { INTRO_COOKIE_MAX_AGE_SECONDS, INTRO_SEEN_COOKIE, INTRO_VIDEO_SRC } from "@/lib/brand";
 
 function setIntroSeenCookie() {
@@ -12,7 +12,7 @@ function setIntroSeenCookie() {
 export function IntroLandingPage() {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const [entering, setEntering] = useState(false);
 
   const enterSite = useCallback(() => {
@@ -22,6 +22,31 @@ export function IntroLandingPage() {
     router.push("/");
     router.refresh();
   }, [entering, router]);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+
+    el.muted = false;
+    setMuted(false);
+
+    const tryPlay = async () => {
+      try {
+        await el.play();
+      } catch {
+        // Autoplay with sound is blocked on some browsers — fall back to muted, user can unmute.
+        el.muted = true;
+        setMuted(true);
+        try {
+          await el.play();
+        } catch {
+          /* ignore */
+        }
+      }
+    };
+
+    void tryPlay();
+  }, []);
 
   const toggleMute = () => {
     const el = videoRef.current;
@@ -34,56 +59,51 @@ export function IntroLandingPage() {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex min-h-[100dvh] flex-col overflow-hidden bg-black font-[family-name:var(--font-marketing)] text-white">
+    <div className="fixed inset-0 z-[100] flex min-h-[100dvh] flex-col overflow-hidden bg-black">
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-contain"
         src={INTRO_VIDEO_SRC}
         autoPlay
-        muted
         playsInline
         preload="auto"
+        muted={muted}
         onEnded={enterSite}
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/40" aria-hidden />
+      {/* Light edge fade only — keeps the full video visible */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/70 to-transparent"
+        aria-hidden
+      />
 
       <div
-        className="relative z-10 flex items-center justify-between gap-3 px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6"
-        style={{ paddingTop: "max(1rem, env(safe-area-inset-top, 0px))" }}
+        className="relative z-10 flex items-center justify-between gap-3 px-4 sm:px-6"
+        style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top, 0px))" }}
       >
-        <p className="font-athlete text-xs tracking-[0.2em] text-[#FF8C3A]">D1 Nation</p>
+        <p className="font-athlete text-[10px] tracking-[0.2em] text-[#FF8C3A]/90 sm:text-xs">D1 Nation</p>
         <button
           type="button"
           onClick={toggleMute}
-          className="pointer-events-auto flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/30 bg-black/40 backdrop-blur-sm"
+          className="pointer-events-auto flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-white/25 bg-black/50 backdrop-blur-sm"
           aria-label={muted ? "Unmute video" : "Mute video"}
         >
-          {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+          {muted ? <VolumeX className="h-5 w-5 text-white" /> : <Volume2 className="h-5 w-5 text-white" />}
         </button>
       </div>
 
-      <div className="relative z-10 mt-auto px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6">
-        <div className="mx-auto flex max-w-lg flex-col items-center gap-4 text-center">
-          <p className="break-words px-2 font-athlete text-[clamp(1.5rem,6vw,2rem)] text-white sm:text-3xl">Run your era.</p>
-          <p className="text-sm text-white/75">Tap in when you&apos;re ready.</p>
-          <button
-            type="button"
-            onClick={enterSite}
-            disabled={entering}
-            className="cta-glow pointer-events-auto inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-full bg-[#FF6600] px-8 py-4 text-xs font-bold uppercase tracking-wide text-white transition hover:scale-[1.02] hover:bg-[#e85c00] disabled:opacity-70"
-          >
-            {entering ? "Loading…" : "Enter the site"}
-            <ArrowRight className="h-4 w-4" />
-          </button>
-          <button
-            type="button"
-            onClick={enterSite}
-            className="pointer-events-auto text-xs font-medium text-white/70 underline-offset-2 hover:text-white hover:underline"
-          >
-            Skip intro
-          </button>
-        </div>
+      <div
+        className="relative z-10 mt-auto flex items-center justify-end px-4 sm:px-6"
+        style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom, 0px))" }}
+      >
+        <button
+          type="button"
+          onClick={enterSite}
+          disabled={entering}
+          className="pointer-events-auto rounded-full border border-white/30 bg-black/45 px-4 py-2.5 text-xs font-semibold text-white/90 backdrop-blur-sm hover:bg-black/60 disabled:opacity-60"
+        >
+          {entering ? "Loading…" : "Skip intro"}
+        </button>
       </div>
     </div>
   );
