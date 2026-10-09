@@ -6,18 +6,36 @@ import { cn } from "@/lib/cn";
 type Props = {
   className?: string;
   priority?: boolean;
+  /** Header uses 2× logo height; footer stays default. */
+  size?: "default" | "2x";
 };
 
-export function BrandLogo({ className, priority }: Props) {
+const logoSizes = {
+  default: {
+    width: 180,
+    height: 48,
+    link: "max-w-[46vw] sm:max-w-none",
+    img: "h-7 w-auto max-w-full object-contain object-left sm:h-10",
+  },
+  "2x": {
+    width: 360,
+    height: 96,
+    link: "max-w-[min(78vw,360px)] sm:max-w-none",
+    img: "h-14 w-auto max-w-full object-contain object-left sm:h-20",
+  },
+} as const;
+
+export function BrandLogo({ className, priority, size = "default" }: Props) {
+  const s = logoSizes[size];
   return (
-    <Link href="/" className={cn("inline-flex min-w-0 max-w-[46vw] shrink items-center sm:max-w-none", className)}>
+    <Link href="/" className={cn("inline-flex min-w-0 shrink items-center", s.link, className)}>
       <Image
         src={BRAND_LOGO_PATH}
         alt="D1 Nation"
-        width={180}
-        height={48}
+        width={s.width}
+        height={s.height}
         priority={priority}
-        className="h-7 w-auto max-w-full object-contain object-left sm:h-10"
+        className={s.img}
       />
     </Link>
   );

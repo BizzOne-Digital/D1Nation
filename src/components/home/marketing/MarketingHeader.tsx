@@ -190,8 +190,8 @@ export function MarketingHeader({ variant = "default" }: { variant?: "default" |
       )}
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
-      <div className="safe-px mx-auto flex h-14 max-w-[1280px] items-center justify-between gap-1.5 sm:h-[72px] sm:gap-4 sm:px-6 lg:px-8">
-        <BrandLogo className="min-w-0" priority />
+      <div className="safe-px mx-auto flex min-h-[4.25rem] max-w-[1280px] items-center justify-between gap-1.5 py-2 sm:min-h-[5.75rem] sm:gap-4 sm:px-6 sm:py-2.5 lg:px-8">
+        <BrandLogo className="min-w-0" size="2x" priority />
 
         <nav className="hidden items-center gap-4 xl:gap-6 lg:flex" aria-label="Primary">
           {nav.map((item) => {
