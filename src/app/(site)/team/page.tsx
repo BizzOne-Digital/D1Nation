@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MarketingInnerShell } from "@/components/marketing/MarketingInnerShell";
+import { resolvePublicImageUrl, shouldUnoptimizeImageSrc } from "@/lib/image-url";
 import { MARKETING_HEROES } from "@/lib/marketing-heroes";
 import { marketingSocial } from "@/lib/marketing-social";
 import { getPublishedTeam, getSiteSettings } from "@/lib/site-data";
@@ -31,9 +32,10 @@ export default async function TeamPage() {
               <div className="relative aspect-[4/5] bg-neutral-100">
                 {member.photoUrl ? (
                   <Image
-                    src={member.photoUrl}
+                    src={resolvePublicImageUrl(member.photoUrl, MARKETING_HEROES.member)}
                     alt=""
                     fill
+                    unoptimized={shouldUnoptimizeImageSrc(member.photoUrl)}
                     className="object-cover transition group-hover:scale-105"
                     sizes="33vw"
                   />

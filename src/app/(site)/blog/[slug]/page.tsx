@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MarketingInnerShell } from "@/components/marketing/MarketingInnerShell";
+import { resolvePublicImageUrl, shouldUnoptimizeImageSrc } from "@/lib/image-url";
 import { MARKETING_HEROES } from "@/lib/marketing-heroes";
 import { marketingSocial } from "@/lib/marketing-social";
 import { getPostBySlug, getSiteSettings } from "@/lib/site-data";
@@ -22,7 +23,10 @@ export default async function BlogPostPage({ params }: Props) {
   const [settings, post] = await Promise.all([getSiteSettings(), getPostBySlug(slug)]);
   if (!post) notFound();
 
-  const hero = post.coverImageUrl || MARKETING_HEROES.article;
+  const hero = post.coverImageUrl
+    ? resolvePublicImageUrl(post.coverImageUrl, MARKETING_HEROES.article)
+    : MARKETING_HEROES.article;
+  const coverSrc = post.coverImageUrl ? resolvePublicImageUrl(post.coverImageUrl, MARKETING_HEROES.article) : "";
 
   return (
     <MarketingInnerShell
@@ -40,9 +44,17 @@ export default async function BlogPostPage({ params }: Props) {
           })}
         </time>
       )}
-      {post.coverImageUrl && (
+      {coverSrc && (
         <div className="relative mb-10 aspect-[21/9] overflow-hidden border border-neutral-200">
-          <Image src={post.coverImageUrl} alt="" fill className="object-cover" sizes="800px" priority />
+          <Image
+            src={coverSrc}
+            alt=""
+            fill
+            unoptimized={shouldUnoptimizeImageSrc(coverSrc)}
+            className="object-cover"
+            sizes="800px"
+            priority
+          />
         </div>
       )}
       <div className="prose-marketing max-w-3xl whitespace-pre-line text-base">{post.content}</div>

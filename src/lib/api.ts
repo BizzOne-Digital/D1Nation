@@ -9,6 +9,13 @@ export function jsonError(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status });
 }
 
+export function mongoErrorMessage(err: unknown): string | null {
+  if (err && typeof err === "object" && "code" in err && (err as { code: number }).code === 11000) {
+    return "A record with this name or slug already exists.";
+  }
+  return null;
+}
+
 export async function withAdmin(handler: () => Promise<Response>) {
   try {
     await requireAdmin();

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { MarketingInnerShell } from "@/components/marketing/MarketingInnerShell";
+import { resolvePublicImageUrl, shouldUnoptimizeImageSrc } from "@/lib/image-url";
 import { MARKETING_HEROES } from "@/lib/marketing-heroes";
 import { marketingSocial } from "@/lib/marketing-social";
 import { getPublishedTestimonials, getSiteSettings } from "@/lib/site-data";
@@ -26,7 +27,14 @@ export default async function TestimonialsPage() {
             <article key={t._id} className="flex h-full flex-col border border-neutral-200 bg-neutral-50 p-8">
               {t.photoUrl ? (
                 <div className="relative mb-6 h-16 w-16 overflow-hidden rounded-full border-2 border-[#FF6A00]/40">
-                  <Image src={t.photoUrl} alt="" fill className="object-cover" sizes="64px" />
+                  <Image
+                    src={resolvePublicImageUrl(t.photoUrl, MARKETING_HEROES.testimonials)}
+                    alt=""
+                    fill
+                    unoptimized={shouldUnoptimizeImageSrc(t.photoUrl)}
+                    className="object-cover"
+                    sizes="64px"
+                  />
                 </div>
               ) : (
                 <div className="relative mb-6 h-16 w-16 overflow-hidden rounded-full border-2 border-[#FF6A00]/40">

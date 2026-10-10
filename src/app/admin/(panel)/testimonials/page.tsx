@@ -70,7 +70,7 @@ export default function AdminTestimonialsPage() {
             <input className={adminInputClass} value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} />
           </AdminField>
         </div>
-        <ImageUploadField label="Photo" folder="testimonials" value={form.photoUrl} onChange={(url) => setForm({ ...form, photoUrl: url })} />
+        <ImageUploadField label="Photo" folder="gallery" value={form.photoUrl} onChange={(url) => setForm({ ...form, photoUrl: url })} />
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" checked={!!form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} /> Published
         </label>

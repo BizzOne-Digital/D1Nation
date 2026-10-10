@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { MarketingInnerShell } from "@/components/marketing/MarketingInnerShell";
 import { formatPublicPrice } from "@/lib/pricing";
+import { resolvePublicImageUrl, shouldUnoptimizeImageSrc } from "@/lib/image-url";
 import { MARKETING_HEROES } from "@/lib/marketing-heroes";
 import { marketingSocial } from "@/lib/marketing-social";
 import { getProductBySlug, getSiteSettings } from "@/lib/site-data";
@@ -21,7 +22,9 @@ export default async function ProductDetailPage({ params }: Props) {
   const [settings, product] = await Promise.all([getSiteSettings(), getProductBySlug(slug)]);
   if (!product) notFound();
 
-  const mainImage = product.images?.[0]?.url || MARKETING_HEROES.product;
+  const mainImage = product.images?.[0]?.url
+    ? resolvePublicImageUrl(product.images[0].url, MARKETING_HEROES.product)
+    : MARKETING_HEROES.product;
 
   return (
     <MarketingInnerShell
@@ -37,6 +40,7 @@ export default async function ProductDetailPage({ params }: Props) {
             src={mainImage}
             alt={product.images?.[0]?.alt || product.name}
             fill
+            unoptimized={shouldUnoptimizeImageSrc(mainImage)}
             className="object-cover"
             sizes="50vw"
             priority

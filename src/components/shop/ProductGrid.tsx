@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { resolvePublicImageUrl, shouldUnoptimizeImageSrc } from "@/lib/image-url";
 import { formatPublicPrice } from "@/lib/pricing";
 import { Search } from "lucide-react";
 
@@ -84,7 +85,8 @@ export function ProductGrid({ products, theme = "dark" }: { products: ProductLis
       {filtered.length ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((p) => {
-            const img = p.images?.[0]?.url;
+            const rawImg = p.images?.[0]?.url;
+            const img = rawImg ? resolvePublicImageUrl(rawImg) : "";
             return (
               <Link
                 key={p._id}
@@ -97,7 +99,14 @@ export function ProductGrid({ products, theme = "dark" }: { products: ProductLis
               >
                 <div className="relative aspect-square bg-white/5">
                   {img ? (
-                    <Image src={img} alt={p.images?.[0]?.alt || p.name} fill className="object-cover transition group-hover:scale-105" sizes="33vw" />
+                    <Image
+                      src={img}
+                      alt={p.images?.[0]?.alt || p.name}
+                      fill
+                      unoptimized={shouldUnoptimizeImageSrc(img)}
+                      className="object-cover transition group-hover:scale-105"
+                      sizes="33vw"
+                    />
                   ) : (
                     <div className="flex h-full items-center justify-center text-xs text-d1-muted">No image</div>
                   )}

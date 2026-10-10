@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MarketingInnerShell } from "@/components/marketing/MarketingInnerShell";
+import { resolvePublicImageUrl, shouldUnoptimizeImageSrc } from "@/lib/image-url";
 import { MARKETING_HEROES } from "@/lib/marketing-heroes";
 import { marketingSocial } from "@/lib/marketing-social";
 import { getPublishedPosts, getSiteSettings } from "@/lib/site-data";
@@ -33,9 +34,10 @@ export default async function BlogPage() {
               <div className="relative aspect-[16/10] bg-neutral-100">
                 {post.coverImageUrl ? (
                   <Image
-                    src={post.coverImageUrl}
+                    src={resolvePublicImageUrl(post.coverImageUrl, MARKETING_HEROES.article)}
                     alt=""
                     fill
+                    unoptimized={shouldUnoptimizeImageSrc(post.coverImageUrl)}
                     className="object-cover transition group-hover:scale-105"
                     sizes="33vw"
                   />

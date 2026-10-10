@@ -2,10 +2,10 @@ import Link from "next/link";
 
 const cards = [
   { href: "/admin/settings", title: "Site Settings", desc: "Logo, hero video, contact, social links" },
-  { href: "/admin/services", title: "Services", desc: "Programs, benefits, optional public pricing" },
+  { href: "/admin/services", title: "Services", desc: "Add, edit, delete programs and images" },
   { href: "/admin/inquiries", title: "Inquiries", desc: "Contact form submissions" },
-  { href: "/admin/products", title: "Products", desc: "Shop catalog and availability" },
-  { href: "/admin/blogs", title: "Blog", desc: "Articles and SEO fields" },
+  { href: "/admin/products", title: "Products", desc: "Add, edit, delete shop items and photos" },
+  { href: "/admin/blogs", title: "Blog", desc: "Articles, cover images, publish or draft" },
 ];
 
 export default function AdminDashboardPage() {

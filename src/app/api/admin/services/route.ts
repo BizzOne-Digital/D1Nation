@@ -1,12 +1,12 @@
 import { connectDB } from "@/lib/mongodb";
 import Service from "@/models/Service";
-import { jsonError, jsonOk, withAdmin } from "@/lib/api";
+import { jsonError, jsonOk, mongoErrorMessage, withAdmin } from "@/lib/api";
 import { slugify } from "@/lib/slug";
 
 export async function GET() {
   return withAdmin(async () => {
     await connectDB();
-    const items = await Service.find().sort({ order: 1 });
+    const items = await Service.find().sort({ order: 1 }).lean();
     return jsonOk(items);
   });
 }
@@ -17,8 +17,14 @@ export async function POST(request: Request) {
     const body = await request.json();
     if (!body.title || !body.overview) return jsonError("Title and overview required");
     const slug = body.slug || slugify(body.title);
-    const item = await Service.create({ ...body, slug });
-    return jsonOk(item, 201);
+    try {
+      const item = await Service.create({ ...body, slug });
+      return jsonOk(item.toObject(), 201);
+    } catch (e) {
+      const msg = mongoErrorMessage(e);
+      if (msg) return jsonError(msg);
+      throw e;
+    }
   });
 }
 
@@ -28,9 +34,15 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const { id, ...updates } = body;
     if (!id) return jsonError("ID required");
-    const item = await Service.findByIdAndUpdate(id, updates, { new: true });
-    if (!item) return jsonError("Not found", 404);
-    return jsonOk(item);
+    try {
+      const item = await Service.findByIdAndUpdate(id, updates, { new: true }).lean();
+      if (!item) return jsonError("Not found", 404);
+      return jsonOk(item);
+    } catch (e) {
+      const msg = mongoErrorMessage(e);
+      if (msg) return jsonError(msg);
+      throw e;
+    }
   });
 }
 

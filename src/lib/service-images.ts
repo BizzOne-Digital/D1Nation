@@ -1,3 +1,5 @@
+import { isLegacyDiskUploadUrl } from "@/lib/image-url";
+
 export const SERVICE_IMAGE_BY_SLUG: Record<string, string> = {
   academy: "/images/services/academy.jpg",
   teams: "/images/services/teams.jpg",
@@ -6,6 +8,10 @@ export const SERVICE_IMAGE_BY_SLUG: Record<string, string> = {
 };
 
 export function resolveServiceImage(slug: string, imageUrl?: string | null) {
-  if (imageUrl && !imageUrl.includes("unsplash.com")) return imageUrl;
-  return SERVICE_IMAGE_BY_SLUG[slug] ?? imageUrl ?? SERVICE_IMAGE_BY_SLUG.academy;
+  const fallback = SERVICE_IMAGE_BY_SLUG[slug] ?? SERVICE_IMAGE_BY_SLUG.academy;
+  if (imageUrl && !imageUrl.includes("unsplash.com")) {
+    if (isLegacyDiskUploadUrl(imageUrl)) return fallback;
+    return imageUrl;
+  }
+  return fallback;
 }

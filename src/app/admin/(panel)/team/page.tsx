@@ -54,7 +54,7 @@ export default function AdminTeamPage() {
         <AdminField label="Bio">
           <textarea className={adminInputClass} rows={5} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} />
         </AdminField>
-        <ImageUploadField label="Photo" folder="team" value={form.photoUrl} onChange={(url) => setForm({ ...form, photoUrl: url })} />
+        <ImageUploadField label="Photo" folder="gallery" value={form.photoUrl} onChange={(url) => setForm({ ...form, photoUrl: url })} />
         <AdminField label="Display order">
           <input type="number" className={adminInputClass} value={form.order ?? 0} onChange={(e) => setForm({ ...form, order: Number(e.target.value) })} />
         </AdminField>

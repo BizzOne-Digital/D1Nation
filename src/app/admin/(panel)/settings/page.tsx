@@ -41,14 +41,14 @@ export default function AdminSettingsPage() {
     <div className="max-w-3xl space-y-8">
       <div>
         <h1 className="font-display text-4xl text-d1-off-white">Site Settings</h1>
-        <p className="mt-2 text-sm text-d1-muted">Logo, hero media, headlines, contact, and SEO.</p>
+        <p className="mt-2 text-sm text-d1-muted">Logo, hero media, headlines, and contact info.</p>
       </div>
 
       <section className="space-y-4 rounded-xl border border-white/10 p-6">
         <h2 className="font-display text-2xl">Brand & Hero</h2>
         <ImageUploadField
           label="Logo"
-          folder="branding"
+          folder="pages"
           value={data.logoUrl}
           onChange={(url, publicId) => {
             set("logoUrl", url);
@@ -57,7 +57,7 @@ export default function AdminSettingsPage() {
         />
         <ImageUploadField
           label="Hero Video"
-          folder="hero"
+          folder="misc"
           kind="video"
           value={data.heroVideoUrl}
           onChange={(url, publicId) => {
@@ -67,7 +67,7 @@ export default function AdminSettingsPage() {
         />
         <ImageUploadField
           label="Hero Fallback Image"
-          folder="hero"
+          folder="pages"
           value={data.heroImageUrl}
           onChange={(url, publicId) => {
             set("heroImageUrl", url);
@@ -119,18 +119,12 @@ export default function AdminSettingsPage() {
       </section>
 
       <section className="space-y-4 rounded-xl border border-white/10 p-6">
-        <h2 className="font-display text-2xl">Legacy & SEO</h2>
+        <h2 className="font-display text-2xl">About page stats</h2>
         <AdminField label="Placement claim (e.g. 1,000+)">
           <input className={adminInputClass} value={data.placementClaim || ""} onChange={(e) => set("placementClaim", e.target.value)} />
         </AdminField>
         <AdminField label="Placement label">
           <input className={adminInputClass} value={data.placementClaimLabel || ""} onChange={(e) => set("placementClaimLabel", e.target.value)} />
-        </AdminField>
-        <AdminField label="Meta title">
-          <input className={adminInputClass} value={data.metaTitle || ""} onChange={(e) => set("metaTitle", e.target.value)} />
-        </AdminField>
-        <AdminField label="Meta description">
-          <textarea className={adminInputClass} rows={3} value={data.metaDescription || ""} onChange={(e) => set("metaDescription", e.target.value)} />
         </AdminField>
       </section>
 

@@ -16,19 +16,16 @@ const dmSans = DM_Sans({
 
 const oswald = Oswald({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
   variable: "--font-hero",
 });
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-marketing",
 });
 
 const caveat = Caveat({
   subsets: ["latin"],
-  weight: ["600", "700"],
   variable: "--font-script",
 });
 
